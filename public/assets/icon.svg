@@ -1,0 +1,20 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="512" height="512" rx="96" fill="#212121"/>
+  <rect x="116" y="92" width="280" height="328" rx="32" fill="#FAFAFA"/>
+  <path d="M332 92L396 156H356C342.745 156 332 145.255 332 132V92Z" fill="#E0E0E0"/>
+  <circle cx="170" cy="190" r="10" fill="#FFC107"/>
+  <rect x="194" y="182" width="120" height="16" rx="8" fill="#BDBDBD"/>
+  <circle cx="170" cy="246" r="10" fill="#FFC107"/>
+  <rect x="194" y="238" width="140" height="16" rx="8" fill="#BDBDBD"/>
+  <circle cx="170" cy="302" r="10" fill="#FFC107"/>
+  <rect x="194" y="294" width="100" height="16" rx="8" fill="#BDBDBD"/>
+  <g transform="translate(294,302) rotate(-35) translate(46,-19)">
+    <rect x="0" y="0" width="160" height="38" rx="5" fill="#FFC107"/>
+    <rect x="134" y="0" width="26" height="38" rx="3" fill="#EF5350"/>
+    <rect x="118" y="0" width="18" height="38" fill="#B0BEC5"/>
+    <polygon points="0,0 0,38 -30,27 -30,11" fill="#D7CCC8"/>
+    <polygon points="0,0 -30,11 -30,27 0,38" fill="#BCAAA4" opacity="0.4"/>
+    <polygon points="-30,11 -30,27 -48,19" fill="#37474F"/>
+    <line x1="-30" y1="11" x2="-48" y2="19" stroke="#546E7A" stroke-width="1.5"/>
+  </g>
+</svg>

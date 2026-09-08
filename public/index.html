@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+        />
+
+        <meta
+            name="description"
+            content="StackNodes — a hierarchical outliner for organizing and connecting your thoughts and ideas."
+        />
+        <meta property="og:title" content="StackNodes" />
+        <meta
+            property="og:description"
+            content="A hierarchical outliner for organizing and connecting your thoughts and ideas."
+        />
+        <meta property="og:url" content="https://stacknodes.app" />
+        <meta
+            property="og:image"
+            content="https://stacknodes.app/assets/icon.svg"
+        />
+        <meta name="theme-color" content="#bda40a" />
+
+        <meta
+            name="google-site-verification"
+            content="H0dm1AWnuPcFSXgZITUCx4CrWYPC2OoqQcKuN2gvvbM"
+        />
+
+        <title>StackNodes</title>
+        <link rel="icon" type="image/svg+xml" href="assets/icon.svg" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        />
+        <link rel="manifest" href="manifest.json" />
+        <style>
+            *, *::before, *::after {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+
+            html, body {
+                height: 100%
+                margin: 0;
+            }
+
+            body {
+                background: #1a1a1a;
+                color: #d4d0c4;
+                font-family: "Sans", "Segoe UI";
+                font-size: 15px;
+                line-height: 1.6;
+                -webkit-font-smoothing: antialiased;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .landing {
+                text-align: center;
+                padding: 32px;
+                max-width: 640px;
+                width: 100%;
+            }
+
+            .logo {
+                margin-bottom: 32px;
+            }
+
+            .logo svg {
+                width: 48px;
+                height: 48px;
+            }
+
+            h1 {
+                font-size: 28px;
+                font-weight: 700;
+                color: #d4d0c4;
+                margin-bottom: 8px;
+                letter-spacing: -0.5px;
+            }
+
+            .tagline {
+                font-size: 13px;
+                color: #7a7668;
+                margin-bottom: 40px;
+            }
+
+            .desc {
+                font-size: 13px;
+                color: #a09a8a;
+                max-width: 480px;
+                margin: 0 auto 44px;
+                line-height: 1.8;
+            }
+
+            .desc strong {
+                color: #c4a820;
+                font-weight: 700;
+            }
+
+            .pillars {
+                display: flex;
+                gap: 16px;
+                justify-content: center;
+                margin-bottom: 48px;
+            }
+
+            .pillar {
+                background: #1c1a16;
+                border: 1px solid #2e2b22;
+                border-radius: 8px;
+                padding: 16px;
+                flex: 1;
+                max-width: 180px;
+            }
+
+            .pillar-icon {
+                font-size: 20px;
+                color: #c4a820;
+                margin-bottom: 8px;
+            }
+
+            .pillar-title {
+                font-size: 11px;
+                font-weight: 700;
+                color: #d4d0c4;
+                margin-bottom: 4px;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+            }
+
+            .pillar-text {
+                font-size: 11px;
+                color: #7a7668;
+            }
+
+            .actions {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 12px;
+            }
+
+            .btn {
+                display: inline-flex;
+                align-items: center;
+                gap: 12px;
+                background: none;
+                border: 1px solid #2e2b22;
+                border-radius: 8px;
+                color: #d4d0c4;
+                font-family: "Sans", "Segoe UI";
+                font-size: 13px;
+                padding: 10px 24px;
+                cursor: pointer;
+                text-decoration: none;
+                transition: background 0.1s, border-color 0.1s;
+                min-width: 280px;
+                justify-content: center;
+            }
+
+            .btn:hover {
+                background: #1c1a16;
+                border-color: #3d3924;
+            }
+
+            .btn.primary {
+                border-color: #c4a82040;
+                color: #c4a820;
+            }
+
+            .btn.primary:hover {
+                background: #c4a82008;
+                border-color: #c4a82080;
+            }
+
+            .key-hint {
+                display: inline-block;
+                background: #1e1c14;
+                color: #c4a820;
+                border: 1px solid #c4a82040;
+                border-radius: 4px;
+                font-size: 10px;
+                padding: 1px 6px;
+                font-family: "Sans", "Segoe UI";
+                min-width: 20px;
+                text-align: center;
+            }
+
+            .btn .key-hint {
+                margin-left: auto;
+            }
+
+            .footer {
+                margin-top: 40px;
+                font-size: 10px;
+                color: #4a4840;
+            }
+
+            .footer a {
+                color: #7a7668;
+                text-decoration: none;
+            }
+
+            .footer a:hover {
+                color: #c4a820;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="landing">
+            <div class="logo">
+                <svg
+                    width="48"
+                    height="48"
+                    viewBox="0 0 512 512"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <rect width="512" height="512" rx="96" fill="#212121" />
+                    <rect
+                        x="116"
+                        y="92"
+                        width="280"
+                        height="328"
+                        rx="32"
+                        fill="#FAFAFA"
+                    />
+                    <path
+                        d="M332 92L396 156H356C342.745 156 332 145.255 332 132V92Z"
+                        fill="#E0E0E0"
+                    />
+                    <circle cx="170" cy="190" r="10" fill="#FFC107" />
+                    <rect
+                        x="194"
+                        y="182"
+                        width="120"
+                        height="16"
+                        rx="8"
+                        fill="#BDBDBD"
+                    />
+                    <circle cx="170" cy="246" r="10" fill="#FFC107" />
+                    <rect
+                        x="194"
+                        y="238"
+                        width="140"
+                        height="16"
+                        rx="8"
+                        fill="#BDBDBD"
+                    />
+                    <circle cx="170" cy="302" r="10" fill="#FFC107" />
+                    <rect
+                        x="194"
+                        y="294"
+                        width="100"
+                        height="16"
+                        rx="8"
+                        fill="#BDBDBD"
+                    />
+                </svg>
+            </div>
+
+            <h1>StackNodes</h1>
+            <p class="tagline">
+                hierarchical outliner for people who think in nodes
+            </p>
+
+            <p class="desc">
+                <strong>organize</strong> by design &mdash; nest ideas deeply, connect them freely.<br />
+                <strong>powerful</strong> by craft &mdash; search, history, import/export.<br />
+                no login. no distractions. no time waste
+            </p>
+
+            <div class="pillars">
+                <div class="pillar">
+                    <div class="pillar-icon">
+                        <i class="fa-solid fa-sitemap"></i>
+                    </div>
+                    <div class="pillar-title">hierarchical</div>
+                    <div class="pillar-text">
+                        nest your thoughts as deep as you need
+                    </div>
+                </div>
+                <div class="pillar">
+                    <div class="pillar-icon">
+                        <i class="fa-solid fa-link"></i>
+                    </div>
+                    <div class="pillar-title">connected</div>
+                    <div class="pillar-text">
+                        link ideas across your stack
+                    </div>
+                </div>
+                <div class="pillar">
+                    <div class="pillar-icon">
+                        <i class="fa-solid fa-history"></i>
+                    </div>
+                    <div class="pillar-title">versioned</div>
+                    <div class="pillar-text">
+                        every change saved and recoverable
+                    </div>
+                </div>
+            </div>
+
+            <div class="actions">
+                <a href="app/index.html" class="btn primary" id="btn-start">
+                    start stacking now
+                    <span class="key-hint">return</span>
+                </a>
+                <a
+                    href="https://github.com/ivaansridev/StackNodes"
+                    class="btn"
+                    id="btn-source"
+                    target="_blank"
+                    rel="noopener"
+                >
+                    <i class="fa-brands fa-github"></i> view source
+                    <span class="key-hint">g</span>
+                </a>
+            </div>
+
+            <p class="footer">
+                &copy; 2026 &middot;
+                <a
+                    href="https://github.com/ivaansridev/StackNodes/blob/main/public/documentation/data/privacypolicy.md"
+                    target="_blank"
+                    rel="noopener"
+                    title="its safe bro"
+                >
+                    privacy policy
+                </a>
+            </p>
+        </div>
+
+        <script>
+            document.addEventListener("keydown", function (e) {
+                if (e.key === "Enter") {
+                    e.preventDefault();
+                    document.getElementById("btn-start").click();
+                } else if (e.key === "g" || e.key === "G") {
+                    e.preventDefault();
+                    document.getElementById("btn-source").click();
+                }
+            });
+        </script>
+
+        <!-- umami privacy tracking -->
+        <script
+            defer
+            src="https://cloud.umami.is/script.js"
+            data-website-id="2c8215df-d11d-49bf-8abc-461245584c25"
+        ></script>
+    </body>
+</html>

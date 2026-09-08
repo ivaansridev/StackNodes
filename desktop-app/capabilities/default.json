@@ -1,0 +1,11 @@
+{
+  "identifier": "default",
+  "description": "Default capabilities for StackNodes",
+  "windows": ["main"],
+  "permissions": [
+    "core:default",
+    "core:window:allow-close",
+    "core:window:allow-minimize",
+    "core:window:allow-toggle-maximize"
+  ]
+}

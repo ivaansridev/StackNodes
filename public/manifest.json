@@ -1,0 +1,24 @@
+{
+  "background_color": "#1a1a1a",
+  "dir": "ltr",
+  "display": "minimal-ui",
+  "name": "StackNodes",
+  "orientation": "any",
+  "scope": "/",
+  "short_name": "StackNodes",
+  "start_url": "https://stacknodes.app/app/index.html",
+  "theme_color": "#bda40a",
+  "icons": [
+    {
+      "src": "https://stacknodes.app/assets/icon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any"
+    }
+  ],
+  "id": "stacknodes",
+  "description": "hierarchical node-based outliner for organizing your thoughts",
+  "lang": "en",
+  "display_override": [
+    "window-controls-overlay"
+  ]
+}

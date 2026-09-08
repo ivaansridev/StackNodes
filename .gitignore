@@ -1,0 +1,14 @@
+*test*
+*.bak
+*debug*
+
+# node
+node_modules
+
+# rust / tauri build artifacts
+target/
+**/*.rs.bk
+*.pdb
+
+# tauri auto-generated
+tauri/gen

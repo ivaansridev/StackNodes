@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+        />
+        <title>App - StackNodes</title>
+        <link rel="icon" type="image/svg+xml" href="../assets/icon.svg" />
+        <link rel="stylesheet" href="styles.css" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        />
+    </head>
+    <body>
+        <div id="app">
+            <div id="topbar">
+                <div id="breadcrumb" data-tauri-drag-region></div>
+                <div id="topbar-actions">
+                    <div id="menu-wrapper">
+                        <button id="menu-btn">&#8942;</button>
+                        <div id="menu-dropdown">
+                            <button data-action="global-search">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                                Global Search
+                            </button>
+                            <hr class="menu-sep" />
+                            <button data-action="toggle-hide-completed">
+                                <span class="menu-icon">&#10003;</span> Hide
+                                Completed
+                            </button>
+                            <hr class="menu-sep" />
+                            <button data-action="collapse-all">
+                                <i class="fa-solid fa-compress"></i> Collapse
+                                All
+                            </button>
+                            <button data-action="expand-all">
+                                <i class="fa-solid fa-expand"></i> Expand All
+                            </button>
+                            <button data-action="sync">
+                                <i class="fa-solid fa-arrows-rotate"></i> Sync
+                            </button>
+                            <hr class="menu-sep" />
+                            <button data-action="settings">
+                                <i class="fa-solid fa-gear"></i> Settings
+                            </button>
+                            <button data-action="version-history">
+                                Version History
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="outliner">
+                <h1 id="view-title"></h1>
+            </div>
+            <div id="link-suggestions" role="listbox"></div>
+            <div id="action-bar">
+                <button class="action-btn std-tooltip std-tooltip-top" data-action="undo" tooltip="Undo" aria-label="Undo">
+                    <i class="fa-solid fa-rotate-left"></i>
+                </button>
+                <button class="action-btn std-tooltip std-tooltip-top" data-action="redo" tooltip="Redo" aria-label="Redo">
+                    <i class="fa-solid fa-rotate-right"></i>
+                </button>
+                <div class="action-sep"></div>
+                <button class="action-btn std-tooltip std-tooltip-top" data-action="indent" tooltip="Indent" aria-label="Indent">
+                    <i class="fa-solid fa-indent"></i>
+                </button>
+                <button
+                    class="action-btn std-tooltip std-tooltip-top"
+                    data-action="unindent"
+                    tooltip="Unindent"
+                    aria-label="Unindent"
+                >
+                    <i class="fa-solid fa-outdent"></i>
+                </button>
+                <div class="action-sep"></div>
+                <button
+                    class="action-btn std-tooltip std-tooltip-top"
+                    data-action="toggle-complete"
+                    tooltip="Toggle Complete"
+                    aria-label="Toggle Complete"
+                >
+                    <i class="fa-solid fa-check"></i>
+                </button>
+                <button
+                    class="action-btn std-tooltip std-tooltip-top"
+                    data-action="toggle-numbering"
+                    tooltip="Toggle Line Numbers"
+                    aria-label="Toggle Line Numbers"
+                >
+                    <i class="fa-solid fa-list-ol"></i>
+                </button>
+            </div>
+        </div>
+
+        <div id="search-overlay">
+            <input
+                id="search-input"
+                type="text"
+                placeholder="search everything"
+                spellcheck="false"
+                autocomplete="off"
+            />
+            <div id="search-results"></div>
+        </div>
+
+        <div id="cheatsheet-overlay">
+            <div id="cheatsheet-content">
+                <h1>Keybinds</h1>
+                <div class="cheatsheet-grid"></div>
+                <button id="cheatsheet-close" class="modal-close std-tooltip std-tooltip-left" tooltip="Close" aria-label="Close">&times;</button>
+            </div>
+        </div>
+
+        <div id="version-overlay">
+            <div id="version-content">
+                <h1>Version History</h1>
+                <div id="version-list"></div>
+                <button id="version-close" class="modal-close std-tooltip std-tooltip-left" tooltip="Close" aria-label="Close">&times;</button>
+            </div>
+        </div>
+
+        <div id="confirm-overlay">
+            <div id="confirm-content">
+                <div id="confirm-msg">
+                    This node has more than 5 nodes. Delete anyway?
+                </div>
+                <div id="confirm-hint">
+                    <span class="key-hint">y</span> /
+                    <span class="key-hint">enter</span> /
+                    <span class="key-hint">delete</span> to Delete &middot;
+                    <span class="key-hint">n</span> /
+                    <span class="key-hint">backspace</span> to Cancel
+                </div>
+            </div>
+        </div>
+
+        <div id="settings-overlay">
+            <div id="settings-content">
+                <h1>Settings</h1>
+                <div id="settings-body">
+                    <details class="settings-section" open>
+                        <summary class="settings-section-title">Input Mode</summary>
+                        <button id="touch-mode-toggle" class="toggle-btn std-tooltip std-tooltip-bottom" tooltip="Shows a touch-friendly action bar" aria-label="Touch Mode: Shows a touch-friendly action bar">
+                            <span class="toggle-label">Touch Mode</span>
+                            <span class="toggle-switch"></span>
+                        </button>
+                    </details>
+                    <details class="settings-section" open>
+                        <summary class="settings-section-title">Appearance</summary>
+                        <label class="settings-control std-tooltip std-tooltip-bottom" tooltip="Changes the font used by editor nodes">
+                            <span>Font</span>
+                            <select id="font-select">
+                                <option value="sans-serif">Sans-Serif</option>
+                                <option value="system-ui">System-UI</option>
+                                <option value="Times New Roman">Times New Roman</option>
+                            </select>
+                        </label>
+                        <label class="settings-control std-tooltip std-tooltip-bottom" tooltip="Controls the maximum editor width">
+                            <span>Screen Width</span>
+                            <select id="screen-width-select">
+                                <option value="normal">Normal</option>
+                                <option value="high">High</option>
+                                <option value="full">Full</option>
+                            </select>
+                        </label>
+                    </details>
+                    <details class="settings-section" open>
+                        <summary class="settings-section-title">Editor</summary>
+                        <button id="animate-toggle" class="toggle-btn std-tooltip std-tooltip-bottom" tooltip="Animate zooming and moving nodes" aria-label="Animate Zoom and Node moving">
+                            <span class="toggle-label">Animate Zoom and Node moving</span>
+                            <span class="toggle-switch"></span>
+                        </button>
+                        <button id="markdown-paste-toggle" class="toggle-btn std-tooltip std-tooltip-bottom" tooltip="Turn structured Markdown paste parsing on or off" aria-label="Detect Markdown pasting">
+                            <span class="toggle-label">Detect Markdown pasting</span>
+                            <span class="toggle-switch"></span>
+                        </button>
+                    </details>
+                    <details class="settings-section" open>
+                        <summary class="settings-section-title">Embeds</summary>
+                        <button id="embed-youtube-toggle" class="toggle-btn std-tooltip std-tooltip-bottom" tooltip="Render YouTube links as video players" aria-label="Embed YouTube">
+                            <span class="toggle-label">YouTube</span><span class="toggle-switch"></span>
+                        </button>
+                        <button id="embed-x-toggle" class="toggle-btn std-tooltip std-tooltip-bottom" tooltip="Render X links as social cards" aria-label="Embed X">
+                            <span class="toggle-label">X</span><span class="toggle-switch"></span>
+                        </button>
+                        <button id="embed-instagram-toggle" class="toggle-btn std-tooltip std-tooltip-bottom" tooltip="Render Instagram links as social cards" aria-label="Embed Instagram">
+                            <span class="toggle-label">Instagram</span><span class="toggle-switch"></span>
+                        </button>
+                    </details>
+                    <details class="settings-section" open>
+                        <summary class="settings-section-title">Import</summary>
+                        <button class="settings-btn std-tooltip std-tooltip-bottom" data-action="import-file" tooltip="Import notes from a text, Markdown, or JSON file">
+                            Import File
+                        </button>
+                    </details>
+                    <details class="settings-section" open>
+                        <summary class="settings-section-title">Export</summary>
+                        <button class="settings-btn std-tooltip std-tooltip-bottom" data-action="export-text" tooltip="Download your notes as plain text">
+                            Export Plain Text (Best for Humans)
+                        </button>
+                        <button
+                            class="settings-btn std-tooltip std-tooltip-bottom"
+                            data-action="export-markdown"
+                            tooltip="Download your notes as Markdown"
+                        >
+                            Export Markdown (Best for TODOs)
+                        </button>
+                        <button class="settings-btn std-tooltip std-tooltip-bottom" data-action="export-json" tooltip="Download your notes as JSON">
+                            Export JSON (Best for Import/Export)
+                        </button>
+                    </details>
+                </div>
+
+                <button id="settings-close" class="modal-close std-tooltip std-tooltip-left" tooltip="Close" aria-label="Close">&times;</button>
+            </div>
+        </div>
+
+        <div id="import-overlay">
+            <div id="import-content">
+                <h1>Import</h1>
+                <div id="import-body">
+                    <div id="import-mode-select">
+                        <button id="import-replace" data-mode="replace">
+                            Replace Root Node
+                        </button>
+                        <button id="import-append" data-mode="append">
+                            Append to Existing Node
+                        </button>
+                    </div>
+                    <div id="import-file-input-section" style="display: none">
+                        <input
+                            type="file"
+                            id="import-file-input"
+                            accept=".txt,.json,.md"
+                        />
+                    </div>
+                    <div id="import-node-select" style="display: none">
+                        <div id="import-node-list"></div>
+                    </div>
+                </div>
+                <button id="import-close" class="modal-close std-tooltip std-tooltip-left" tooltip="Close" aria-label="Close">&times;</button>
+            </div>
+        </div>
+
+        <div id="context-menu" class="context-menu">
+            <button class="context-menu-item" data-action="ctx-delete">
+                <i class="fa-solid fa-trash"></i> Delete
+            </button>
+            <button class="context-menu-item" data-action="ctx-indent">
+                <i class="fa-solid fa-indent"></i> Indent
+            </button>
+            <button class="context-menu-item" data-action="ctx-unindent">
+                <i class="fa-solid fa-outdent"></i> Unindent
+            </button>
+            <button class="context-menu-item" data-action="ctx-collapse-toggle">
+                <i class="fa-solid fa-compress"></i> Collapse/Expand
+            </button>
+            <button class="context-menu-item" data-action="ctx-toggle-complete">
+                <i class="fa-solid fa-check"></i> Toggle Complete
+            </button>
+            <hr class="context-menu-sep" />
+            <button class="context-menu-item" data-action="ctx-copy">
+                <i class="fa-solid fa-copy"></i> Copy
+            </button>
+            <button class="context-menu-item" data-action="ctx-paste-under">
+                <i class="fa-solid fa-paste"></i> Paste Under
+            </button>
+            <button class="context-menu-item" data-action="ctx-paste-above">
+                <i class="fa-solid fa-paste"></i> Paste Above
+            </button>
+            <hr class="context-menu-sep" />
+            <button class="context-menu-item" data-action="ctx-select">
+                <i class="fa-solid fa-hand-pointer"></i> Select Node
+            </button>
+            <button class="context-menu-item" data-action="ctx-convert-to">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Convert To...
+            </button>
+            <div id="context-menu-convert-submenu" class="context-menu-submenu" style="display: none;">
+                <button class="context-menu-item" data-action="ctx-convert-text">
+                    <i class="fa-solid fa-align-left"></i> Text
+                </button>
+                <button class="context-menu-item" data-action="ctx-convert-image">
+                    <i class="fa-solid fa-image"></i> Image
+                </button>
+            </div>
+        </div>
+
+        <div id="sync-overlay">
+            <div id="sync-content">
+                <h1>Sync</h1>
+                <div id="sync-body">
+                    <div class="sync-section">
+                        <label>Room</label>
+                        <input
+                            type="text"
+                            id="sync-room"
+                            placeholder="enter room name"
+                            spellcheck="false"
+                            autocomplete="off"
+                        />
+                    </div>
+                    <div class="sync-section">
+                        <label>Secret</label>
+                        <input
+                            type="password"
+                            id="sync-secret"
+                            placeholder="enter secret"
+                            spellcheck="false"
+                            autocomplete="off"
+                        />
+                    </div>
+                    <div class="sync-checkbox-section">
+                        <input type="checkbox" id="sync-replace-root" />
+                        <label for="sync-replace-root">Replace Root Node</label>
+                    </div>
+                    <div id="sync-status" class="sync-status"></div>
+                </div>
+                <div id="sync-buttons">
+                    <button id="sync-push" class="sync-action-btn">Push</button>
+                    <button id="sync-pull" class="sync-action-btn">Pull</button>
+                </div>
+                <button id="sync-close" class="modal-close std-tooltip std-tooltip-left" tooltip="Close" aria-label="Close">&times;</button>
+            </div>
+        </div>
+
+        <div id="image-upload-overlay">
+            <div id="image-upload-content">
+                <h1>Convert to Image</h1>
+                <div id="image-upload-drop-zone" class="image-drop-zone">
+                    <i class="fa-solid fa-image"></i>
+                    <p>Drag & Drop Image Here or Click to Select</p>
+                </div>
+                <input type="file" id="image-file-input" accept="image/*" style="display: none;" />
+                <button id="image-upload-close" class="modal-close std-tooltip std-tooltip-left" tooltip="Close" aria-label="Close">&times;</button>
+            </div>
+        </div>
+
+        <div id="image-fullscreen-overlay">
+            <div id="image-fullscreen-content">
+                <div id="image-fullscreen-container">
+                    <img id="fullscreen-image" />
+                </div>
+                <div id="image-fullscreen-controls">
+                    <button id="image-fullscreen-download">
+                        <i class="fa-solid fa-download"></i> Download
+                    </button>
+                    <button id="image-fullscreen-replace">
+                        <i class="fa-solid fa-rotate"></i> Replace
+                    </button>
+                    <button id="image-fullscreen-close" class="std-tooltip std-tooltip-bottom" tooltip="Close" aria-label="Close">
+                        &times;
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <script src="db.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js"></script>
+        <script src="sync.js"></script>
+        <script src="script.js"></script>
+        <script src="exportlogic.js"></script>
+        <script src="nodetypes.js"></script>
+
+        <!-- umami privacy tracking -->
+        <script
+            defer
+            src="https://cloud.umami.is/script.js"
+            data-website-id="72ffff3f-511d-445a-9d39-44749169080e"
+        ></script>
+    </body>
+</html>
