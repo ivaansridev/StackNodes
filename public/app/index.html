@@ -8,6 +8,7 @@
         />
         <title>App - StackNodes</title>
         <link rel="icon" type="image/svg+xml" href="../assets/icon.svg" />
+        <link rel="stylesheet" href="std.css" />
         <link rel="stylesheet" href="styles.css" />
         <link
             rel="stylesheet"
@@ -20,7 +21,7 @@
                 <div id="breadcrumb" data-tauri-drag-region></div>
                 <div id="topbar-actions">
                     <div id="menu-wrapper">
-                        <button id="menu-btn">&#8942;</button>
+                        <button id="menu-btn" class="std-btn std-btn-simple" aria-label="Open menu">&#8942;</button>
                         <div id="menu-dropdown">
                             <button data-action="global-search">
                                 <i class="fa-solid fa-magnifying-glass"></i>
@@ -58,18 +59,18 @@
             </div>
             <div id="link-suggestions" role="listbox"></div>
             <div id="action-bar">
-                <button class="action-btn std-tooltip std-tooltip-top" data-action="undo" tooltip="Undo" aria-label="Undo">
+                <button class="action-btn std-btn std-btn-simple std-tooltip std-tooltip-top" data-action="undo" tooltip="Undo" aria-label="Undo">
                     <i class="fa-solid fa-rotate-left"></i>
                 </button>
-                <button class="action-btn std-tooltip std-tooltip-top" data-action="redo" tooltip="Redo" aria-label="Redo">
+                <button class="action-btn std-btn std-btn-simple std-tooltip std-tooltip-top" data-action="redo" tooltip="Redo" aria-label="Redo">
                     <i class="fa-solid fa-rotate-right"></i>
                 </button>
                 <div class="action-sep"></div>
-                <button class="action-btn std-tooltip std-tooltip-top" data-action="indent" tooltip="Indent" aria-label="Indent">
+                <button class="action-btn std-btn std-btn-simple std-tooltip std-tooltip-top" data-action="indent" tooltip="Indent" aria-label="Indent">
                     <i class="fa-solid fa-indent"></i>
                 </button>
                 <button
-                    class="action-btn std-tooltip std-tooltip-top"
+                    class="action-btn std-btn std-btn-simple std-tooltip std-tooltip-top"
                     data-action="unindent"
                     tooltip="Unindent"
                     aria-label="Unindent"
@@ -78,7 +79,7 @@
                 </button>
                 <div class="action-sep"></div>
                 <button
-                    class="action-btn std-tooltip std-tooltip-top"
+                    class="action-btn std-btn std-btn-simple std-tooltip std-tooltip-top"
                     data-action="toggle-complete"
                     tooltip="Toggle Complete"
                     aria-label="Toggle Complete"
@@ -86,7 +87,7 @@
                     <i class="fa-solid fa-check"></i>
                 </button>
                 <button
-                    class="action-btn std-tooltip std-tooltip-top"
+                    class="action-btn std-btn std-btn-simple std-tooltip std-tooltip-top"
                     data-action="toggle-numbering"
                     tooltip="Toggle Line Numbers"
                     aria-label="Toggle Line Numbers"
@@ -108,23 +109,23 @@
         </div>
 
         <div id="cheatsheet-overlay">
-            <div id="cheatsheet-content">
+            <div id="cheatsheet-content" class="std-modal">
                 <h1>Keybinds</h1>
                 <div class="cheatsheet-grid"></div>
-                <button id="cheatsheet-close" class="modal-close std-tooltip std-tooltip-left" tooltip="Close" aria-label="Close">&times;</button>
+                <button id="cheatsheet-close" class="modal-close std-btn std-btn-simple std-tooltip std-tooltip-left" tooltip="Close" aria-label="Close">&times;</button>
             </div>
         </div>
 
         <div id="version-overlay">
-            <div id="version-content">
+            <div id="version-content" class="std-modal">
                 <h1>Version History</h1>
                 <div id="version-list"></div>
-                <button id="version-close" class="modal-close std-tooltip std-tooltip-left" tooltip="Close" aria-label="Close">&times;</button>
+                <button id="version-close" class="modal-close std-btn std-btn-simple std-tooltip std-tooltip-left" tooltip="Close" aria-label="Close">&times;</button>
             </div>
         </div>
 
         <div id="confirm-overlay">
-            <div id="confirm-content">
+            <div id="confirm-content" class="std-modal">
                 <div id="confirm-msg">
                     This node has more than 5 nodes. Delete anyway?
                 </div>
@@ -139,7 +140,7 @@
         </div>
 
         <div id="settings-overlay">
-            <div id="settings-content">
+            <div id="settings-content" class="std-modal">
                 <h1>Settings</h1>
                 <div id="settings-body">
                     <details class="settings-section" open>
@@ -178,6 +179,16 @@
                             <span class="toggle-label">Detect Markdown pasting</span>
                             <span class="toggle-switch"></span>
                         </button>
+                        <label class="settings-control std-tooltip std-tooltip-bottom" tooltip="Hide the top bar after the mouse stops moving">
+                            <span>Focus mode</span>
+                            <select id="focus-mode-select">
+                                <option value="3">3s</option>
+                                <option value="5">5s</option>
+                                <option value="10">10s</option>
+                                <option value="20">20s</option>
+                                <option value="never">Never</option>
+                            </select>
+                        </label>
                     </details>
                     <details class="settings-section" open>
                         <summary class="settings-section-title">Embeds</summary>
@@ -193,41 +204,41 @@
                     </details>
                     <details class="settings-section" open>
                         <summary class="settings-section-title">Import</summary>
-                        <button class="settings-btn std-tooltip std-tooltip-bottom" data-action="import-file" tooltip="Import notes from a text, Markdown, or JSON file">
+                        <button class="settings-btn std-btn std-btn-pill-outlined std-tooltip std-tooltip-bottom" data-action="import-file" tooltip="Import notes from a text, Markdown, or JSON file">
                             Import File
                         </button>
                     </details>
                     <details class="settings-section" open>
                         <summary class="settings-section-title">Export</summary>
-                        <button class="settings-btn std-tooltip std-tooltip-bottom" data-action="export-text" tooltip="Download your notes as plain text">
+                        <button class="settings-btn std-btn std-btn-pill-outlined std-tooltip std-tooltip-bottom" data-action="export-text" tooltip="Download your notes as plain text">
                             Export Plain Text (Best for Humans)
                         </button>
                         <button
-                            class="settings-btn std-tooltip std-tooltip-bottom"
+                            class="settings-btn std-btn std-btn-pill-outlined std-tooltip std-tooltip-bottom"
                             data-action="export-markdown"
                             tooltip="Download your notes as Markdown"
                         >
                             Export Markdown (Best for TODOs)
                         </button>
-                        <button class="settings-btn std-tooltip std-tooltip-bottom" data-action="export-json" tooltip="Download your notes as JSON">
+                        <button class="settings-btn std-btn std-btn-pill-outlined std-tooltip std-tooltip-bottom" data-action="export-json" tooltip="Download your notes as JSON">
                             Export JSON (Best for Import/Export)
                         </button>
                     </details>
                 </div>
 
-                <button id="settings-close" class="modal-close std-tooltip std-tooltip-left" tooltip="Close" aria-label="Close">&times;</button>
+                <button id="settings-close" class="modal-close std-btn std-btn-simple std-tooltip std-tooltip-left" tooltip="Close" aria-label="Close">&times;</button>
             </div>
         </div>
 
         <div id="import-overlay">
-            <div id="import-content">
+            <div id="import-content" class="std-modal">
                 <h1>Import</h1>
                 <div id="import-body">
                     <div id="import-mode-select">
-                        <button id="import-replace" data-mode="replace">
+                        <button id="import-replace" class="std-btn std-btn-pill-outlined" data-mode="replace">
                             Replace Root Node
                         </button>
-                        <button id="import-append" data-mode="append">
+                        <button id="import-append" class="std-btn std-btn-pill-outlined" data-mode="append">
                             Append to Existing Node
                         </button>
                     </div>
@@ -242,7 +253,7 @@
                         <div id="import-node-list"></div>
                     </div>
                 </div>
-                <button id="import-close" class="modal-close std-tooltip std-tooltip-left" tooltip="Close" aria-label="Close">&times;</button>
+                <button id="import-close" class="modal-close std-btn std-btn-simple std-tooltip std-tooltip-left" tooltip="Close" aria-label="Close">&times;</button>
             </div>
         </div>
 
@@ -290,7 +301,7 @@
         </div>
 
         <div id="sync-overlay">
-            <div id="sync-content">
+            <div id="sync-content" class="std-modal">
                 <h1>Sync</h1>
                 <div id="sync-body">
                     <div class="sync-section">
@@ -320,38 +331,38 @@
                     <div id="sync-status" class="sync-status"></div>
                 </div>
                 <div id="sync-buttons">
-                    <button id="sync-push" class="sync-action-btn">Push</button>
-                    <button id="sync-pull" class="sync-action-btn">Pull</button>
+                    <button id="sync-push" class="sync-action-btn std-btn std-btn-pill-outlined">Push</button>
+                    <button id="sync-pull" class="sync-action-btn std-btn std-btn-pill-outlined">Pull</button>
                 </div>
-                <button id="sync-close" class="modal-close std-tooltip std-tooltip-left" tooltip="Close" aria-label="Close">&times;</button>
+                <button id="sync-close" class="modal-close std-btn std-btn-simple std-tooltip std-tooltip-left" tooltip="Close" aria-label="Close">&times;</button>
             </div>
         </div>
 
         <div id="image-upload-overlay">
-            <div id="image-upload-content">
+            <div id="image-upload-content" class="std-modal">
                 <h1>Convert to Image</h1>
                 <div id="image-upload-drop-zone" class="image-drop-zone">
                     <i class="fa-solid fa-image"></i>
                     <p>Drag & Drop Image Here or Click to Select</p>
                 </div>
                 <input type="file" id="image-file-input" accept="image/*" style="display: none;" />
-                <button id="image-upload-close" class="modal-close std-tooltip std-tooltip-left" tooltip="Close" aria-label="Close">&times;</button>
+                <button id="image-upload-close" class="modal-close std-btn std-btn-simple std-tooltip std-tooltip-left" tooltip="Close" aria-label="Close">&times;</button>
             </div>
         </div>
 
         <div id="image-fullscreen-overlay">
-            <div id="image-fullscreen-content">
+            <div id="image-fullscreen-content" class="std-modal std-modal-fullscreen">
                 <div id="image-fullscreen-container">
                     <img id="fullscreen-image" />
                 </div>
                 <div id="image-fullscreen-controls">
-                    <button id="image-fullscreen-download">
+                    <button id="image-fullscreen-download" class="std-btn std-btn-pill-outlined">
                         <i class="fa-solid fa-download"></i> Download
                     </button>
-                    <button id="image-fullscreen-replace">
+                    <button id="image-fullscreen-replace" class="std-btn std-btn-pill-outlined">
                         <i class="fa-solid fa-rotate"></i> Replace
                     </button>
-                    <button id="image-fullscreen-close" class="std-tooltip std-tooltip-bottom" tooltip="Close" aria-label="Close">
+                    <button id="image-fullscreen-close" class="std-btn std-btn-simple std-tooltip std-tooltip-bottom" tooltip="Close" aria-label="Close">
                         &times;
                     </button>
                 </div>

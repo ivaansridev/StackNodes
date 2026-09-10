@@ -1,0 +1,311 @@
+:root {
+  --std-fg: #d4d0c4;
+  --std-bg: #121212;
+  --std-border: #5a574d;
+  --std-hover-bg: #29271f;
+  --std-solid-bg: #3a382e;
+  --std-solid-fg: #e2ddce;
+  --std-solid-border: #4d493b;
+  --std-solid-hover-bg: #4a4635;
+
+  --std-size: 40px;
+  --std-pill-h: 40px;
+  --std-radius: 8px;
+  --std-icon-size: 20px;
+  --std-dur: 120ms;
+
+  --std-tooltip-bg: #3a3a3a;
+  --std-tooltip-fg: #f2f2f2;
+  --std-tooltip-gap: 8px;
+  --std-tooltip-arrow: 5px;
+}
+
+.std-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1.5px solid transparent;
+  color: var(--std-fg);
+  transition:
+    background-color var(--std-dur) ease,
+    border-color var(--std-dur) ease,
+    color var(--std-dur) ease,
+    filter var(--std-dur) ease;
+}
+
+.std-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.std-btn:focus-visible {
+  outline: 2px solid var(--std-border);
+  outline-offset: 2px;
+}
+
+.std-btn-pill,
+.std-btn-pill-solid,
+.std-btn-pill-outlined,
+.std-btn-pill-ghost {
+  height: var(--std-pill-h);
+  padding: 0 20px;
+  border-radius: 9999px;
+}
+
+.std-btn-icon {
+  width: var(--std-size);
+  height: var(--std-size);
+  padding: 0;
+  border-radius: var(--std-radius);
+  font-size: var(--std-icon-size);
+}
+
+.std-btn-circle {
+  width: var(--std-size);
+  height: var(--std-size);
+  padding: 0;
+  border-radius: 50%;
+  font-size: var(--std-icon-size);
+}
+
+.std-btn-simple {
+  width: var(--std-size);
+  height: var(--std-size);
+  padding: 0;
+  border: none;
+  border-radius: 9999px;
+  background: transparent;
+  font-size: var(--std-icon-size);
+}
+
+.std-btn-simple:hover {
+  background: var(--std-hover-bg);
+}
+
+.std-btn-simple:active {
+  filter: brightness(0.95);
+}
+
+.std-btn-outlined {
+  background: transparent;
+  border-color: var(--std-border);
+}
+
+.std-btn-outlined:hover {
+  background: var(--std-hover-bg);
+}
+
+.std-btn-outlined:active {
+  filter: brightness(0.95);
+}
+
+.std-btn-solid {
+  background: var(--std-solid-bg);
+  color: var(--std-solid-fg);
+  border-color: var(--std-solid-border);
+}
+
+.std-btn-solid:hover {
+  background: var(--std-solid-hover-bg);
+  border-color: var(--std-solid-hover-bg);
+}
+
+.std-btn-solid:active {
+  filter: brightness(1.1);
+}
+
+.std-btn-ghost {
+  background: transparent;
+  border-color: transparent;
+  border-radius: 9999px;
+}
+
+.std-btn-ghost:hover {
+  background: var(--std-hover-bg);
+}
+
+.std-btn-ghost:active {
+  filter: brightness(0.95);
+}
+
+.std-btn-pill-solid {
+  background: var(--std-solid-bg);
+  color: var(--std-solid-fg);
+  border-color: var(--std-solid-border);
+}
+
+.std-btn-pill-solid:hover {
+  background: var(--std-solid-hover-bg);
+  border-color: var(--std-solid-hover-bg);
+}
+
+.std-btn-pill-solid:active {
+  filter: brightness(1.1);
+}
+
+.std-btn-pill-outlined {
+  background: transparent;
+  border-color: var(--std-border);
+}
+
+.std-btn-pill-outlined:hover {
+  background: var(--std-hover-bg);
+}
+
+.std-btn-pill-outlined:active {
+  filter: brightness(0.95);
+}
+
+.std-btn-pill-ghost {
+  background: transparent;
+  border-color: transparent;
+}
+
+.std-btn-pill-ghost:hover {
+  background: var(--std-hover-bg);
+}
+
+.std-btn-pill-ghost:active {
+  filter: brightness(0.95);
+}
+
+.std-btn-sm {
+  --std-size: 32px;
+  --std-pill-h: 32px;
+  font-size: 13px;
+}
+
+.std-btn-sm.std-btn-icon,
+.std-btn-sm.std-btn-circle,
+.std-btn-sm.std-btn-simple {
+  font-size: 16px;
+}
+
+.std-btn-lg {
+  --std-size: 48px;
+  --std-pill-h: 48px;
+  font-size: 15px;
+}
+
+.std-btn-lg.std-btn-icon,
+.std-btn-lg.std-btn-circle,
+.std-btn-lg.std-btn-simple {
+  font-size: 24px;
+}
+
+.std-tooltip {
+  position: relative;
+}
+
+.std-tooltip::before,
+.std-tooltip::after {
+  position: absolute;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity var(--std-dur) ease,
+    transform var(--std-dur) ease;
+}
+
+.std-tooltip::before {
+  content: attr(tooltip);
+  background: var(--std-tooltip-bg);
+  color: var(--std-tooltip-fg);
+  box-shadow: 0 2px 6px rgb(0 0 0 / 15%);
+  font-size: 12px;
+  line-height: 1.4;
+  white-space: nowrap;
+  padding: 5px 9px;
+  border-radius: 6px;
+}
+
+.std-tooltip::after {
+  content: "";
+  width: 0;
+  height: 0;
+  border: var(--std-tooltip-arrow) solid transparent;
+}
+
+.std-tooltip:hover::before,
+.std-tooltip:hover::after {
+  opacity: 1;
+}
+
+.std-tooltip-top::before {
+  bottom: calc(100% + var(--std-tooltip-gap));
+  left: 50%;
+  transform: translate(-50%, 4px);
+}
+
+.std-tooltip-top::after {
+  bottom: calc(100% + var(--std-tooltip-gap) - var(--std-tooltip-arrow));
+  left: 50%;
+  transform: translate(-50%, 4px);
+  border-top-color: var(--std-tooltip-bg);
+}
+
+.std-tooltip-top:hover::before,
+.std-tooltip-top:hover::after {
+  transform: translate(-50%, 0);
+}
+
+.std-tooltip-bottom::before {
+  top: calc(100% + var(--std-tooltip-gap));
+  left: 50%;
+  transform: translate(-50%, -4px);
+}
+
+.std-tooltip-bottom::after {
+  top: calc(100% + var(--std-tooltip-gap) - var(--std-tooltip-arrow));
+  left: 50%;
+  transform: translate(-50%, -4px);
+  border-bottom-color: var(--std-tooltip-bg);
+}
+
+.std-tooltip-bottom:hover::before,
+.std-tooltip-bottom:hover::after {
+  transform: translate(-50%, 0);
+}
+
+.std-tooltip-left::before {
+  right: calc(100% + var(--std-tooltip-gap));
+  top: 50%;
+  transform: translate(4px, -50%);
+}
+
+.std-tooltip-left::after {
+  right: calc(100% + var(--std-tooltip-gap) - var(--std-tooltip-arrow));
+  top: 50%;
+  transform: translate(4px, -50%);
+  border-left-color: var(--std-tooltip-bg);
+}
+
+.std-tooltip-left:hover::before,
+.std-tooltip-left:hover::after {
+  transform: translate(0, -50%);
+}
+
+.std-tooltip-right::before {
+  left: calc(100% + var(--std-tooltip-gap));
+  top: 50%;
+  transform: translate(-4px, -50%);
+}
+
+.std-tooltip-right::after {
+  left: calc(100% + var(--std-tooltip-gap) - var(--std-tooltip-arrow));
+  top: 50%;
+  transform: translate(-4px, -50%);
+  border-right-color: var(--std-tooltip-bg);
+}
+
+.std-tooltip-right:hover::before,
+.std-tooltip-right:hover::after {
+  transform: translate(0, -50%);
+}

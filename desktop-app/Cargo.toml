@@ -1,6 +1,6 @@
 [package]
 name = "stacknodes"
-version = "0.1.0"
+version = "0.1.1+2"
 description = "StackNodes - a hierarchical node-based outliner"
 authors = ["ivaansrivastavadev"]
 license = "MIT"

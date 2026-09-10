@@ -19,6 +19,7 @@ const state = {
   screenWidth: 'normal',
   animateTransitions: true,
   detectMarkdownPaste: true,
+  focusMode: '5',
   embeds: { youtube: true, x: true, instagram: true },
   linkTargets: {},
   renderAnimation: null,
@@ -392,6 +393,7 @@ function persistState() {
     screenWidth: state.screenWidth,
     animateTransitions: state.animateTransitions,
     detectMarkdownPaste: state.detectMarkdownPaste,
+    focusMode: state.focusMode,
     embeds: { ...state.embeds },
     linkTargets: { ...state.linkTargets },
   };
@@ -553,6 +555,13 @@ function formatNodeText(text, searchQuery) {
     const re = new RegExp(`(${escaped})`, 'gi');
     html = html.replace(re, '<span class="hl">$1</span>');
   }
+
+  html = html.replace(/^####\s+(.+)$/gm, '<h4>$1</h4>');
+  html = html.replace(/^###\s+(.+)$/gm, '<h3>$1</h3>');
+  html = html.replace(/^##\s+(.+)$/gm, '<h2>$1</h2>');
+  html = html.replace(/^#\s+(.+)$/gm, '<h1>$1</h1>');
+  html = html.replace(/^&gt;\s?(.*)$/gm, '<blockquote>$1</blockquote>');
+  html = html.replace(/\n/g, '<br>');
 
   // Apply markdown formatting (in order of precedence: code > bold > italic > strikethrough)
   // Code snippets: `code`
@@ -974,6 +983,11 @@ function updateAppearance() {
   document.getElementById('screen-width-select').value = state.screenWidth;
   document.documentElement.style.setProperty('--editor-font-family', state.fontFamily);
   document.getElementById('app').dataset.screenWidth = state.screenWidth;
+}
+
+function updateFocusMode() {
+  const select = document.getElementById('focus-mode-select');
+  if (select) select.value = state.focusMode;
 }
 
 function restoreFocus() {
@@ -1521,6 +1535,34 @@ function init() {
   const searchOverlay = document.getElementById('search-overlay');
   const cheatsheetOverlay = document.getElementById('cheatsheet-overlay');
   const breadcrumb = document.getElementById('breadcrumb');
+  const topbar = document.getElementById('topbar');
+  let topbarHideTimer = null;
+
+  const showTopbar = () => {
+    topbar.classList.remove('topbar-hidden');
+    if (topbarHideTimer) {
+      clearTimeout(topbarHideTimer);
+      topbarHideTimer = null;
+    }
+  };
+
+  const scheduleTopbarHide = () => {
+    if (topbarHideTimer) clearTimeout(topbarHideTimer);
+    if (state.focusMode === 'never' || topbar.matches(':hover')) return;
+    topbarHideTimer = setTimeout(() => {
+      if (!topbar.matches(':hover')) {
+        topbar.classList.add('topbar-hidden');
+      }
+      topbarHideTimer = null;
+    }, Number(state.focusMode) * 1000);
+  };
+
+  document.addEventListener('mousemove', () => {
+    showTopbar();
+    scheduleTopbarHide();
+  }, { passive: true });
+  topbar.addEventListener('mouseenter', showTopbar);
+  topbar.addEventListener('mouseleave', scheduleTopbarHide);
   const menuBtn = document.getElementById('menu-btn');
   const menuDropdown = document.getElementById('menu-dropdown');
   const versionOverlay = document.getElementById('version-overlay');
@@ -1553,6 +1595,9 @@ function init() {
       state.screenWidth = saved.screenWidth || (saved.widescreen ? 'high' : 'normal');
       state.animateTransitions = saved.animateTransitions !== false;
       state.detectMarkdownPaste = saved.detectMarkdownPaste !== false;
+      state.focusMode = ['3', '5', '10', '20', 'never'].includes(saved.focusMode)
+        ? saved.focusMode
+        : '5';
       state.embeds = { ...state.embeds, ...(saved.embeds || {}) };
       state.linkTargets = saved.linkTargets || {};
       normalizeNode(state.root);
@@ -1565,7 +1610,9 @@ function init() {
     updateAppearance();
     updateToggle(animateToggle, state.animateTransitions);
     updateToggle(markdownPasteToggle, state.detectMarkdownPaste);
+    updateFocusMode();
     updateEmbedToggles();
+    scheduleTopbarHide();
   });
 
   setInterval(() => {
@@ -2219,6 +2266,17 @@ function init() {
     screenWidthSelect.addEventListener('change', () => {
       state.screenWidth = screenWidthSelect.value;
       updateAppearance();
+      schedulePersist();
+    });
+  }
+
+  const focusModeSelect = document.getElementById('focus-mode-select');
+  if (focusModeSelect) {
+    focusModeSelect.addEventListener('change', () => {
+      state.focusMode = focusModeSelect.value;
+      updateFocusMode();
+      showTopbar();
+      scheduleTopbarHide();
       schedulePersist();
     });
   }
